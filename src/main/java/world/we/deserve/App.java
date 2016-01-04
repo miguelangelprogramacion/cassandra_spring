@@ -18,6 +18,7 @@ import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
 
+import world.we.deserve.dao.sample;
 import world.we.deserve.dao.usuario;
 
 @Component
@@ -49,5 +50,28 @@ public class App {
 		List<usuario> results = cassandraOperations.select(select, usuario.class);
 
 		results.forEach(r -> System.out.println(r));
+		
+
+		Map<String, String> p = new HashMap<String, String>();
+		p.putIfAbsent("hola", "caracola");
+		
+		Insert insertSample = QueryBuilder.insertInto("sample");
+		insertSample.setConsistencyLevel(ConsistencyLevel.ONE);
+		insertSample.value("userid", UUID.randomUUID().toString());
+		insertSample.value("todo", p);
+
+		cassandraOperations.execute(insertSample);
+		
+		Select selectSample = QueryBuilder.select().from("demo", "usuario");
+
+		selectSample.limit(100);
+
+		List<sample> resultsSample = cassandraOperations.select(select, sample.class);
+
+		for (sample s : resultsSample)
+		{
+			System.out.println(s.getUserid());
+		}
+
 	}
 }
