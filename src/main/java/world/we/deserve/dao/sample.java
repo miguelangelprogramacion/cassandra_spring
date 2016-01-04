@@ -42,5 +42,10 @@ public class sample {
 	public void setTodo(Map todo) {
 		this.todo = todo;
 	}	
+	
+	 @Override 
+	 public String toString() { 
+	  return "Person [id=" + userid + ", todo size=" + todo.size() + "]"; 
+	 } 
 }
 
