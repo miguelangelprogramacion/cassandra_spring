@@ -1,6 +1,5 @@
 package world.we.deserve;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,16 +8,12 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cassandra.core.RowMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.stereotype.Component;
 
 import com.datastax.driver.core.ConsistencyLevel;
-import com.datastax.driver.core.ResultSet;
-import com.datastax.driver.core.Row;
-import com.datastax.driver.core.exceptions.DriverException;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
@@ -73,21 +68,9 @@ public class App {
 		 List<sample> resultsSample = cassandraOperations.select(selectSample,
 		 sample.class);
 
-//		List<sample> resultsSample = cassandraOperations.query(selectSample, new RowMapper<sample>() {
-//
-//			@Override
-//			public sample mapRow(Row row, int rowNum) throws DriverException {
-//				sample e = new sample();
-//				System.out.println(row);
-//
-//				return e;
-//			}
-//		});
-
 		for (sample s : resultsSample) {
 			System.out.println(s);
 			s.getTodo().entrySet().forEach(e -> System.out.println(" "+e));
 		}
-
 	}
 }
